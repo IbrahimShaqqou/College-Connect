@@ -1,9 +1,9 @@
     require('dotenv').config();
     const mongoose = require('mongoose');
     const cors = require('cors');
-    const bcrypt = require('bcrypt');
     const cookieparser = require('cookie-parser');
     const express = require('express');
+    const authRouter = require('./routers/authRouter')
 
     
 
@@ -11,6 +11,12 @@
     app.use(express.json());
     app.use(cors());
     app.use(cookieparser());
+
+    //routes
+
+    app.use('/api', authRouter)
+
+
 
     const port = process.env.PORT || 5000;
     // const URL = process.env.MONGO_URI;
@@ -25,9 +31,7 @@
     //     console.log('db is connected')
     // })
 
-    app.get("", (req,res)=>{
-        res.status(500).send("hello WRLD");
-    })
+   
 
     app.listen(port , ()=>{
         console.log(`app is running on ${port}`)
