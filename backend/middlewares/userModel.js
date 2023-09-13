@@ -7,8 +7,6 @@ const userSchema = mongoose.Schema({
         unique:true,
         maxlength:25,
         required:true,
-
-
     },
     fullname:{
         type:String,
@@ -37,9 +35,7 @@ const userSchema = mongoose.Schema({
     website:{
         type:String,
         default:'',
-
     },
-    
     phone:{
         type:String,
         default:'',
@@ -54,7 +50,6 @@ const userSchema = mongoose.Schema({
         default:'',
         maxLength:200,
     },
-
     friends:[{type:mongoose.Types.ObjectId,ref:'user'}],
     following:[{type:mongoose.Types.ObjectId,ref:'user'}],
 

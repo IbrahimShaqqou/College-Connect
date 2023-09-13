@@ -16,23 +16,23 @@
 
     app.use('/api', authRouter)
 
-
-
     const port = process.env.PORT || 5000;
-    // const URL = process.env.MONGO_URI;
 
-    // mongoose.connect(uri,{
+    const URL = process.env.MONGO_URI;
+
+    // mongoose.connect(URL,{
     //     useCreateIndex: true,
     //     useFindAndModify: false,
     //     useNewUrlParser: true,
     //     useUnifiedTopology: true,
-    // }, err=>{
-    //     if(err) throw err;
-    //     console.log('db is connected')
     // })
 
-   
+    mongoose.connect(URL).catch(err => console.log(err));
+
+    mongoose.connection.on('error', err => {
+        console.log(err);
+    });
 
     app.listen(port , ()=>{
-        console.log(`app is running on ${port}`)
+        console.log(`app is running on port: ${port}`)
     })

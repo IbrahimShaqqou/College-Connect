@@ -6,11 +6,36 @@ const authCtrl = {
     register: async(req,res)=>{
         try{
             const {fullname, username, email, password, gender} = req.body;
-            console.log(req.body);
-            res.json({
-                msg:"registerd sucess"
+
+            const newUsername = username.toLowerCase().replace(/ /g,'');
+            console.log("New username: " + newUsername);
+
+            const user_name = await Users.findOne({username: newUsername})
+           
+            if (user_name) return res.status(400).json({msg: 'this username already exists'})
+
+            const Email = await Users.findOne({email: email})
+            if (Email)  return res.status(400).json({msg: 'this email already exists'})
+
+            if (password.length < 6) return res.status(400).json({msg: "password must be at least 6 characters long."})
+
+            const passwordHash = await bcrypt.hash(password,13);
+
+            const newUser = new Users({
+                fullname: fullname,
+                username: newUsername,
+                email: email,
+                password: passwordHash,
+                gender: gender,
             })
 
+            console.log(newUser)
+
+            await newUser.save();
+
+            res.json({
+                msg:"register success"
+            })
 
         }catch(err) {
             res.status(500).json({msg: err.message})
